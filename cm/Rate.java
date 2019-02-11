@@ -10,34 +10,34 @@ import java.util.List;
 public class Rate {
     private CarParkKind kind;
     private BigDecimal hourlyNormalRate;
-    private BigDecimal hourlyDiscountedRate;
-    private ArrayList<Period> discount = new ArrayList<>();
+    private BigDecimal hourlyReducedRate;
+    private ArrayList<Period> reduced = new ArrayList<>();
     private ArrayList<Period> normal = new ArrayList<>();
 
-    public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal discountedRate, ArrayList<Period> discountPeriods
+    public Rate(CarParkKind kind, BigDecimal normalRate, BigDecimal reducedRate, ArrayList<Period> reducedPeriods
             , ArrayList<Period> normalPeriods) {
-        if (discountPeriods == null || normalPeriods == null) {
+        if (reducedPeriods == null || normalPeriods == null) {
             throw new IllegalArgumentException("periods cannot be null");
         }
-        if (normalRate == null || discountedRate == null) {
+        if (normalRate == null || reducedRate == null) {
             throw new IllegalArgumentException("The rates cannot be null");
         }
-        if (normalRate.compareTo(BigDecimal.ZERO) < 0 || discountedRate.compareTo(BigDecimal.ZERO) < 0) {
+        if (normalRate.compareTo(BigDecimal.ZERO) < 0 || reducedRate.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("A rate cannot be negative");
         }
-        if (normalRate.compareTo(discountedRate) <= 0) {
-            throw new IllegalArgumentException("The normal rate cannot be less or equal to the discounted rate");
+        if (normalRate.compareTo(reducedRate) <= 0) {
+            throw new IllegalArgumentException("The normal rate cannot be less or equal to the reduced rate");
         }
-        if (!isValidPeriods(discountPeriods) || !isValidPeriods(normalPeriods)) {
+        if (!isValidPeriods(reducedPeriods) || !isValidPeriods(normalPeriods)) {
             throw new IllegalArgumentException("The periods are not valid individually");
         }
-        if (!isValidPeriods(discountPeriods, normalPeriods)) {
+        if (!isValidPeriods(reducedPeriods, normalPeriods)) {
             throw new IllegalArgumentException("The periods overlaps");
         }
         this.kind = kind;
         this.hourlyNormalRate = normalRate;
-        this.hourlyDiscountedRate = discountedRate;
-        this.discount = discountPeriods;
+        this.hourlyReducedRate = reducedRate;
+        this.reduced = reducedPeriods;
         this.normal = normalPeriods;
     }
 
@@ -93,9 +93,9 @@ public class Rate {
     }
     public BigDecimal calculate(Period periodStay) {
         int normalRateHours = periodStay.occurences(normal);
-        int discountRateHours = periodStay.occurences(discount);
+        int reducedRateHours = periodStay.occurences(reduced);
         return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
-                this.hourlyDiscountedRate.multiply(BigDecimal.valueOf(discountRateHours)));
+                this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
     }
 
 }
