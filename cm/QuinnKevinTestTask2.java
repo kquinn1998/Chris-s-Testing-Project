@@ -207,4 +207,148 @@ public class QuinnKevinTestTask2{
 
         assertEquals(new BigDecimal(12),result);
     }
+
+    @Test
+    public void calculateMethodVisitorFreeTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(3,5));
+        reducedPeriods.add(new Period(5,10));
+        normalRate = BigDecimal.valueOf(5);
+        reducedRate = BigDecimal.valueOf(2);
+
+        Rate myRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,3);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(new BigDecimal(0),result);
+    }
+
+    @Test
+    public void calculateMethodVisitorReductionTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(10);
+        reducedRate = BigDecimal.valueOf(2);
+
+        Rate myRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,3);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(new BigDecimal(1),result);
+    }
+
+    @Test
+    public void calculateMethodManagementMinPayTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(2);
+        reducedRate = BigDecimal.valueOf(1);
+
+        Rate myRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,3);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(BigDecimal.valueOf(3.0),result);
+    }
+
+    @Test
+    public void calculateMethodManagementNormalPayTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(2);
+        reducedRate = BigDecimal.valueOf(1);
+
+        Rate myRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,4);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(BigDecimal.valueOf(4),result);
+    }
+
+    @Test
+    public void calculateMethodStudentLessThanTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(2);
+        reducedRate = BigDecimal.valueOf(1);
+
+        Rate myRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,4);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(BigDecimal.valueOf(4),result);
+    }
+
+    @Test
+    public void calculateMethodStudentMoreThanTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(5.50);
+        reducedRate = BigDecimal.valueOf(1);
+
+        Rate myRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,4);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(BigDecimal.valueOf(9.625),result);
+    }
+
+    @Test
+    public void calculateMethodStaffMoreThanTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(10);
+        reducedRate = BigDecimal.valueOf(1);
+
+        Rate myRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,4);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(BigDecimal.valueOf(16.0),result);
+    }
+
+    @Test
+    public void calculateMethodStaffLessThanTest() {
+        reducedPeriods.clear();
+        normalPeriods.clear();
+
+        normalPeriods.add(new Period(1,6));
+        reducedPeriods.add(new Period(6,10));
+        normalRate = BigDecimal.valueOf(2);
+        reducedRate = BigDecimal.valueOf(1);
+
+        Rate myRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriods, normalPeriods);
+
+        Period stay = new Period(2,4);
+        BigDecimal result = myRate.calculate(stay);
+
+        assertEquals(BigDecimal.valueOf(4),result);
+    }
 }
