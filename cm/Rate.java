@@ -94,8 +94,42 @@ public class Rate {
     public BigDecimal calculate(Period periodStay) {
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-        return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
-                this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+        BigDecimal total = this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours)).add(this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+
+        switch (this.kind){
+            case VISITOR:
+                if(total.compareTo(BigDecimal.valueOf(8.00)) == 1){
+                    total = total.subtract(BigDecimal.valueOf(8.00));
+                    total = total.divide(BigDecimal.valueOf(2.00));
+                    return total;
+                }else {
+                    return BigDecimal.valueOf(0);
+                }
+            case MANAGEMENT:
+                if(total.compareTo(BigDecimal.valueOf(3.00)) == -1) {
+                    total = BigDecimal.valueOf(3.00);
+                    return total;
+                }else {
+                    return total;
+                }
+            case STUDENT:
+                if(total.compareTo(BigDecimal.valueOf(5.50)) == 1){
+                    BigDecimal remainder = total.subtract(BigDecimal.valueOf(5.50));
+                    remainder = remainder.subtract(remainder.divide(BigDecimal.valueOf(4.00)));
+                    total = BigDecimal.valueOf(5.50).add(remainder);
+                    return total;
+                }else{
+                    return total;
+                }
+            case STAFF:
+                if(total.compareTo(BigDecimal.valueOf(16.00)) == 1) {
+                    return BigDecimal.valueOf(16.00);
+                }else{
+                    return total;
+                }
+            default:
+                return total;
+        }
     }
 
 }
