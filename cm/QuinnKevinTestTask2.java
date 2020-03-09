@@ -131,28 +131,12 @@ public class QuinnKevinTestTask2{
     }
 
     @Test
-    public void rateCanBeZeroOrGreater(){
-        reducedPeriods.clear();
-        normalPeriods.clear();
-
-        normalPeriods.add(periodOne);
-        normalPeriods.add(periodThree);
-        reducedPeriods.add(periodTwo);
-        normalRate = BigDecimal.valueOf(1);
-        reducedRate = BigDecimal.valueOf(0);
-
-        Rate myRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriods, normalPeriods);
-
-    }
-
-    @Test
     public void normalAndReducedRateCanBeEqual(){
         reducedPeriods.clear();
         normalPeriods.clear();
 
-        normalPeriods.add(periodOne);
-        normalPeriods.add(periodThree);
-        reducedPeriods.add(periodTwo);
+        normalPeriods.add(new Period(3,5));
+        reducedPeriods.add(new Period(5,10));
         normalRate = BigDecimal.valueOf(1);
         reducedRate = BigDecimal.valueOf(1);
 
